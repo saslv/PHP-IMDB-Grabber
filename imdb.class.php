@@ -816,13 +816,17 @@ class IMDB
      */
     public function getGenre() {
         if (true === $this->isReady) {
-            $sMatch = $this->getGenreAsUrl();
-            if (self::$sNotFound !== $sMatch) {
-                return IMDBHelper::cleanString($sMatch);
+            $aMatch = IMDBHelper::matchRegex($this->sSource, self::IMDB_GENRE);
+            if (count($aMatch[2])) {
+                foreach ($aMatch[2] as $i => $sName) {
+                    $aReturn[] = IMDBHelper::cleanString($sName);
+                }
+
+                return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound, $aReturn);
             }
         }
 
-        return self::$sNotFound;
+        return IMDBHelper::arrayOutput($this->bArrayOutput, $this->sSeparator, self::$sNotFound);
     }
 
     /**
