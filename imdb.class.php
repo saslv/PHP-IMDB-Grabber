@@ -166,8 +166,8 @@ class IMDB
      *
      * @throws \IMDBException
      */
-    public function __construct($sSearch, $iCache = null, $sSearchFor = 'all') {
-        $this->sRoot = dirname(__FILE__);
+    public function __construct($sSearch, $iCache = null, $sSearchFor = 'all', $sRoot = null) {
+        if(isNull($sRoot)) $this->sRoot = dirname(__FILE__);
         if ( ! is_writable($this->sRoot . '/posters') && ! mkdir($this->sRoot . '/posters')) {
             throw new IMDBException('The directory “' . $this->sRoot . '/posters” isn’t writable.');
         }
